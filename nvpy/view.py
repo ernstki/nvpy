@@ -1415,9 +1415,14 @@ class View(utils.SubjectMixin):
         # you'll see errors about PhotoImage not being PhotoImage when we
         # try to set the app icon.
         style = tk.Style()
-        #print style.theme_names()
-        #print style.theme_use()
-        style.theme_use(self.config.theme)
+        logging.debug('style theme names: %s' % (style.theme_names(),))
+        logging.debug('style theme use: %s' % (style.theme_use(),))
+        #style.theme_use(self.config.theme)
+
+        import sv_ttk, darkdetect
+        theme_variant = darkdetect.theme().lower()
+        sv_ttk.set_theme(theme_variant)
+        logging.debug('set theme: %s' % (theme_variant,))
 
         # Take the last size and position to which the user set the window.
         geo = self.config.read_setting('windows', 'root_geometry')
