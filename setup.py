@@ -33,6 +33,8 @@ setup(
         'docutils',
         # This is hard requirements of nvpy.
         'simplenote>=2.1.4',
+        'sv_ttk',
+        'PyGObject',
     ],
     extras_require={
         # development and test requirements.
