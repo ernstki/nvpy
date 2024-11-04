@@ -447,13 +447,14 @@ class Controller:
         lhandler.setLevel(logging.DEBUG)
         lhandler.setFormatter(logging.Formatter(fmt='%(asctime)s - %(levelname)s - %(message)s'))
 
-        shandler = logging.StreamHandler()
-        if self.config.console_debug == 1:
-            shandler.setLevel(logging.DEBUG)  # else default of WARNING
+        rootLogger = logging.getLogger('')
+        rootLogger.addHandler(lhandler)
 
-        logger = logging.getLogger()
-        logger.addHandler(lhandler)
-        logger.addHandler(shandler)
+        if self.config.console_debug == 1:
+            shandler = logging.StreamHandler()
+            shandler.setFormatter(logging.Formatter(fmt='[%(levelname)s] %(message)s'))
+            rootLogger.setLevel(logging.DEBUG)
+            rootLogger.addHandler(shandler)
 
         # this will go to the root logger
         logging.debug('nvpy logging initialized')

@@ -1419,10 +1419,16 @@ class View(utils.SubjectMixin):
         logging.debug('style theme use: %s' % (style.theme_use(),))
         #style.theme_use(self.config.theme)
 
-        import sv_ttk, darkdetect
-        theme_variant = darkdetect.theme().lower()
-        sv_ttk.set_theme(theme_variant)
-        logging.debug('set theme: %s' % (theme_variant,))
+        import gi, sv_ttk
+        gi.require_version('Gtk', '3.0')
+        from gi.repository import Gtk
+        settings = Gtk.Settings.get_default()
+        preferdark = settings.get_property("gtk-application-prefer-dark-theme") 
+        logging.debug('Gtk 3.0 dark theme pref: %s' % preferdark)
+
+        themevariant = 'dark' if preferdark else 'light'
+        sv_ttk.set_theme(themevariant)
+        logging.debug('set theme: %s' % themevariant)
 
         # Take the last size and position to which the user set the window.
         geo = self.config.read_setting('windows', 'root_geometry')
